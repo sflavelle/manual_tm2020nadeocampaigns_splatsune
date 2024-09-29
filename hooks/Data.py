@@ -1,9 +1,105 @@
+# We're copying the load_data_file code here because the main Data.py is still loading when it loads this file
+import json
+import os
+import pkgutil
+def load_data_file(*args) -> dict:
+    fname = os.path.join("data", *args)
+
+    try:
+        filedata = json.loads(pkgutil.get_data(__name__, fname).decode())
+    except:
+        filedata = []
+
+    return filedata
+
+# Here is the data we need for everything
+
+CAMPAIGN_TIERS = {
+    "White": range(1, 6),   # 01-05
+    "Green": range(6, 11),  # 06-10
+    "Blue": range(11, 16),  # 11-15
+    "Red": range(16, 21),   # 16-20
+    "Black": range(21, 26)  # 21-25
+}
+
+MEDALS = ["Bronze", "Silver", "Gold", "Author"]
+
+CAMPAIGNS = load_data_file("input_campaigns.json")
+
+# Processing functions for regions and locations
+def generate_campaign_regions(campaign):
+    result = {}
+
+    # Generate the objects for each tier
+    for tier, num_range in CAMPAIGN_TIERS.items():
+        connects_to = [f"{campaign} #{num:02}" for num in num_range]
+        
+        # Create the tier region
+        result[f"{campaign} {tier}"] = {
+            "requires": f"|Progressive Unlock {campaign}|",
+            "connects_to": connects_to
+        }
+        
+        # Create individual objects for each track
+        for num in num_range:
+            result[f"{campaign} #{num:02}"] = {
+                "requires": ""
+            }
+
+    return result
+
+def generate_campaign_medal_locations(campaign):
+    # This will store the full output
+    result = []
+
+    # Generate the objects for each color
+    for tier, num_range in CAMPAIGN_TIERS.items():
+        for num in num_range:
+            for medal in MEDALS:
+                loc = {
+                    "name": f"[{campaign}] #{num:02} {medal}",
+                    "category": [f"{campaign} {tier}", f"{tier} Medals"],
+                    "region": f"{campaign} #{num:02}"
+                    }
+                result.append(loc)
+
+    return result
+
+def generate_campaign_trophy_locations(campaign):
+    # This will store the full output
+    result = []
+
+    # Generate the objects for each color
+    for tier in CAMPAIGN_TIERS.keys():
+        for medal in MEDALS:
+            loc = {
+                "name": f"[{campaign}] {tier} Trophy, All {medal}",
+                "category": [f"{campaign} {tier}", f"{campaign} Trophies", f"{tier} Trophies"],
+                "region": f"{campaign} {tier}"
+                }
+            result.append(loc)
+
+    return result
+
+# ############
+# And now the actual hooks
+# ############
+
 # called after the game.json file has been loaded
 def after_load_game_file(game_table: dict) -> dict:
     return game_table
 # called after the items.json file has been loaded, before any item loading or processing has occurred
 # if you need access to the items after processing to add ids, etc., you should use the hooks in World.py
 def after_load_item_file(item_table: list) -> list:
+    for campaign in CAMPAIGNS:
+        progressive_item = dict({
+                    "name": f"Progressive Unlock {campaign}",
+                    "category": ["Campaign Unlocks"],
+                    "progression": True,
+                    "count": 5
+                    })
+        item_table.append(progressive_item)
+    print(item_table)
     return item_table
 
 # NOTE: Progressive items are not currently supported in Manual. Once they are,
@@ -14,11 +110,21 @@ def after_load_progressive_item_file(progressive_item_table: list) -> list:
 # called after the locations.json file has been loaded, before any location loading or processing has occurred
 # if you need access to the locations after processing to add ids, etc., you should use the hooks in World.py
 def after_load_location_file(location_table: list) -> list:
+
+    for campaign in CAMPAIGNS:
+        location_table.extend(generate_campaign_medal_locations(campaign))
+        location_table.extend(generate_campaign_trophy_locations(campaign))
+
     return location_table
 
 # called after the locations.json file has been loaded, before any location loading or processing has occurred
 # if you need access to the locations after processing to add ids, etc., you should use the hooks in World.py
 def after_load_region_file(region_table: dict) -> dict:
+
+    for campaign in CAMPAIGNS:
+        region_table.update(generate_campaign_regions(campaign))
+        region_table["Campaign Select"]["connects_to"].append(f"{campaign} White")
+
     return region_table
 
 # called after the categories.json file has been loaded
