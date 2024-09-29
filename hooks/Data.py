@@ -1,17 +1,3 @@
-# We're copying the load_data_file code here because the main Data.py is still loading when it loads this file
-import json
-import os
-import pkgutil
-def load_data_file(*args) -> dict:
-    fname = os.path.join("data", *args)
-
-    try:
-        filedata = json.loads(pkgutil.get_data(__name__, fname).decode())
-    except:
-        filedata = []
-
-    return filedata
-
 # Here is the data we need for everything
 
 CAMPAIGN_TIERS = {
@@ -24,7 +10,26 @@ CAMPAIGN_TIERS = {
 
 MEDALS = ["Bronze", "Silver", "Gold", "Author"]
 
-CAMPAIGNS = load_data_file("input_campaigns.json")
+CAMPAIGNS = [
+    "Summer 2020",
+    "Fall 2020",
+    "Winter 2021",
+    "Spring 2021",
+    "Summer 2021",
+    "Fall 2021",
+    "Winter 2022",
+    "Spring 2022",
+    "Summer 2022",
+    "Fall 2022",
+    "Winter 2023",
+    "Spring 2023",
+    "Summer 2023",
+    "Fall 2023",
+    "Winter 2024",
+    "Spring 2024",
+    "Summer 2024",
+    "Fall 2024"
+]
 
 # Processing functions for regions and locations
 def generate_campaign_regions(campaign):
@@ -81,6 +86,17 @@ def generate_campaign_trophy_locations(campaign):
 
     return result
 
+def generate_campaign_unlock_items(campaign):
+    result = []
+    progressive_item = {
+        "name": f"Progressive Unlock {campaign}",
+        "category": ["Campaign Unlocks"],
+        "progression": True,
+        "count": 5
+        }
+    result.append(progressive_item)
+    return result
+
 # ############
 # And now the actual hooks
 # ############
@@ -92,13 +108,7 @@ def after_load_game_file(game_table: dict) -> dict:
 # if you need access to the items after processing to add ids, etc., you should use the hooks in World.py
 def after_load_item_file(item_table: list) -> list:
     for campaign in CAMPAIGNS:
-        progressive_item = dict({
-                    "name": f"Progressive Unlock {campaign}",
-                    "category": ["Campaign Unlocks"],
-                    "progression": True,
-                    "count": 5
-                    })
-        item_table.append(progressive_item)
+        item_table.extend(generate_campaign_unlock_items(campaign))
     print(item_table)
     return item_table
 
