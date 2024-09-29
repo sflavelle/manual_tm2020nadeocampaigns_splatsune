@@ -9,6 +9,7 @@ CAMPAIGN_TIERS = {
 }
 
 MEDALS = ["Bronze", "Silver", "Gold", "Author"]
+TIER_ORDER = ["White", "Green", "Blue", "Red", "Black"]
 
 CAMPAIGNS = [
     "Summer 2020",
@@ -35,17 +36,21 @@ CAMPAIGNS = [
 def generate_campaign_regions(campaign):
     result = {}
 
-    # Generate the objects for each tier
-    for tier, num_range in CAMPAIGN_TIERS.items():
+    for i, tier in enumerate(TIER_ORDER):
+        num_range = CAMPAIGN_TIERS[tier]
         connects_to = [f"{campaign} #{num:02}" for num in num_range]
         
         # Create the tier region
         result[f"{campaign} {tier}"] = {
-            "requires": f"|Progressive Unlock {campaign}|",
+            "requires": f"|Progressive Unlock {campaign}:{i+1}|",
             "connects_to": connects_to
         }
-        
-        # Create individual objects for each track
+
+        # Connect each region to the next tier
+        if i < len(TIER_ORDER) - 1:
+            next_tier = TIER_ORDER[i + 1]
+            result[f"{campaign} {tier}"]["connects_to"].append(f"{campaign} {next_tier}")
+
         for num in num_range:
             result[f"{campaign} #{num:02}"] = {
                 "requires": ""
@@ -78,7 +83,7 @@ def generate_campaign_trophy_locations(campaign):
     for tier in CAMPAIGN_TIERS.keys():
         for medal in MEDALS:
             loc = {
-                "name": f"[{campaign}]Trophy - {tier}, All {medal}",
+                "name": f"[{campaign}] Trophy - {tier}, All {medal}",
                 "category": [f"{campaign} {tier}", f"{campaign} Trophies", "Trophies"],
                 "region": f"{campaign} {tier}"
                 }
@@ -133,7 +138,6 @@ def after_load_region_file(region_table: dict) -> dict:
     for campaign in CAMPAIGNS:
         region_table.update(generate_campaign_regions(campaign))
         region_table["Campaign Select"]["connects_to"].append(f"{campaign} White")
-
     return region_table
 
 # called after the categories.json file has been loaded
