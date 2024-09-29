@@ -1,0 +1,8 @@
+{
+    "Example Logic only category": {
+        "hidden": true
+    },
+    "Vehicles": {
+        "yaml_option": ["shuffle_vehicles"]
+    }
+}

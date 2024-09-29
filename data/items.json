@@ -1,0 +1,11 @@
+[
+    {"name": "Progressive Turbo", "category": ["Abilities"], "count": 3, "progression": true},
+    {"name": "Progressive Reactor Boost", "category": ["Abilities"], "count": 2, "progression": true},
+    
+    {"name": "Stadium Car", "category": ["Vehicles"], "progression": true},
+    {"name": "Snow Car", "category": ["Vehicles"], "progression": true},
+    {"name": "Rally Car", "category": ["Vehicles"], "progression": true},
+    {"name": "Desert Car", "category": ["Vehicles"], "progression": true}
+
+    
+  ]
