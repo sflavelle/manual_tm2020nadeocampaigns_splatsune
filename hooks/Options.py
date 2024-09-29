@@ -62,6 +62,11 @@ class IncludeTrophies(Toggle):
 
 # This is called before any manual options are defined, in case you want to define your own with a clean slate or let Manual define over them
 def before_options_defined(options: dict) -> dict:
+    return options
+
+# This is called after any manual options are defined, in case you want to see what options are defined or want to modify the defined options
+def after_options_defined(options: dict) -> dict:
+
     options["campaigns"] = CampaignSelection
     options["campaigns_num"] = CampaignsToWin
 
@@ -69,13 +74,10 @@ def before_options_defined(options: dict) -> dict:
     options["author_medals"] = IncludeAuthorMedals
     options["trophies"] = IncludeTrophies
 
-    return options
-
-# This is called after any manual options are defined, in case you want to see what options are defined or want to modify the defined options
-def after_options_defined(options: dict) -> dict:
-
-    options["shuffle_vehicles"].__doc__ = """Allow vehicles to be shuffled into the item pool. The default vehicle is the Stadium Car,
-    but levels may force you to start as a vehicle with different properties, or switch you to a different vehicle mid-track.
+    options["shuffle_vehicles"].__doc__ = """Allow vehicles to be shuffled into the item pool.
+    The default vehicle is the Stadium Car,
+    but levels may force you to start as a vehicle with different properties,
+    or switch you to a different vehicle mid-track.
     You will start with a random vehicle unlocked, which will affect what levels you can access."""
 
     return options

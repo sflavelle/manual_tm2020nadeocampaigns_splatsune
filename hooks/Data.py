@@ -63,7 +63,7 @@ def generate_campaign_medal_locations(campaign):
             for medal in MEDALS:
                 loc = {
                     "name": f"[{campaign}] #{num:02} {medal}",
-                    "category": [f"{campaign} {tier}", f"{tier} Medals"],
+                    "category": [f"{campaign} {tier}", f"Medals - {medal}"],
                     "region": f"{campaign} #{num:02}"
                     }
                 result.append(loc)
@@ -78,8 +78,8 @@ def generate_campaign_trophy_locations(campaign):
     for tier in CAMPAIGN_TIERS.keys():
         for medal in MEDALS:
             loc = {
-                "name": f"[{campaign}] {tier} Trophy, All {medal}",
-                "category": [f"{campaign} {tier}", f"{campaign} Trophies", f"{tier} Trophies"],
+                "name": f"[{campaign}]Trophy - {tier}, All {medal}",
+                "category": [f"{campaign} {tier}", f"{campaign} Trophies", "Trophies"],
                 "region": f"{campaign} {tier}"
                 }
             result.append(loc)

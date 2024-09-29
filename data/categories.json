@@ -4,5 +4,11 @@
     },
     "Vehicles": {
         "yaml_option": ["shuffle_vehicles"]
+    },
+    "Trophies": {
+        "yaml_option": ["trophies"]
+    },
+    "Medals - Author": {
+        "yaml_option": ["author_medals"]
     }
 }
