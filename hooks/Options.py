@@ -32,7 +32,7 @@ class CampaignsToWin(Range):
     display_name = "Campaigns To Complete"
     range_start = 1
     range_end = len(tm2020_list_all_campaigns())
-    default = 4
+    default = 1
 
 class CampaignSelection(OptionSet):
     """The campaigns you either have available, or would like to play."""
@@ -68,7 +68,7 @@ def before_options_defined(options: dict) -> dict:
 def after_options_defined(options: dict) -> dict:
 
     options["campaigns"] = CampaignSelection
-    options["campaigns_num"] = CampaignsToWin
+    options["goal_campaigns"] = CampaignsToWin
 
     options["exclude_impossible_medals"] = ExcludeImpossibleMedals
     options["author_medals"] = IncludeAuthorMedals
