@@ -32,6 +32,9 @@ CAMPAIGNS = [
     "Fall 2024"
 ]
 
+def supported_campaigns() -> list:
+    return CAMPAIGNS
+
 # Processing functions for regions and locations
 def generate_campaign_regions(campaign):
     result = {}
