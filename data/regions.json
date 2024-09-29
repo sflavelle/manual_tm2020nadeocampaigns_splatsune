@@ -1,3 +1,4 @@
 {
+    "Campaign Select": {"requires": "", "starting": true, "connects_to": []},
     "Win Conditions": {"requires": ""} 
 }

@@ -41,5 +41,5 @@ def before_region_table_processed(region_table: dict) -> dict:
     
     for campaign in campaigns:
         region_table.update(generate_campaign_regions(campaign))
-
+        region_table["Campaign Select"]["connects_to"].append(f"{campaign} White")
     return region_table
