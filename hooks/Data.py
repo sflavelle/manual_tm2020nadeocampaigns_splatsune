@@ -109,7 +109,6 @@ def after_load_game_file(game_table: dict) -> dict:
 def after_load_item_file(item_table: list) -> list:
     for campaign in CAMPAIGNS:
         item_table.extend(generate_campaign_unlock_items(campaign))
-    print(item_table)
     return item_table
 
 # NOTE: Progressive items are not currently supported in Manual. Once they are,
