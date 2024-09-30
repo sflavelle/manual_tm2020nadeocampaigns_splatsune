@@ -12,13 +12,13 @@ In your Archipelago Launcher, use the **Manual Client** to log in and play using
 **You will need a Club Subscription to Trackmania to be able to play this world.**
 
 ### Rule Set
-The basics of how this world works is modelled on the gated progression of standard play, with an extra gate on the Green tracks. Here's how it works:
+The basics of how this world works is vaguely modelled on the gated progression of standard play, with an extra gate on the Green tracks and without medals to collect (for now). Here's how it works:
 
 - Receiving a Progressive Unlock for a campaign gives you access to the White tracks in that campaign (the first five tracks).
 - Receiving more Progressive Unlocks gives you access to the next tiers: In order, they are White, Green, Blue, Red, and Black.
 - Your goal on each campaign is to finish Map #25 with a Gold Medal. Once you collect the amount of completion tokens specified in your YAML options file, that is Victory!
 
-##
+## Locations
 
 There are currently **18** campaigns available, from **Summer 2020** to **Fall 2024**.
 

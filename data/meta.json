@@ -7,6 +7,10 @@
             "https://github.com/ArchipelagoMW/Archipelago/blob/main/docs/world%20api.md#webworld-class"
         ],
         "apworld_description": [
+            "TrackMania is the latest entry in a series of arcade racing games of the same name by Ubisoft Nadeo.",
+            "A spiritual remake of TrackMania Nations ESWC in 2006, it brings back the Stadium environment and encourages players",
+            "to race and create to their hearts content. This Manual focuses on the Campaign playstyle.",
+            " ",
             "Manual games allow you to set custom check locations and custom item names that will be rolled into a multiworld.",
             "This allows any variety of game -- PC, console, board games, Microsoft Word memes... really anything -- to be part of a multiworld randomizer.",
             "The key component to including these games is some level of manual restriction. Since the items are not actually withheld from the player,",
