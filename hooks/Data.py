@@ -12,6 +12,8 @@ MEDALS = ["Bronze", "Silver", "Gold", "Author"]
 TIER_ORDER = ["White", "Green", "Blue", "Red", "Black"]
 
 CAMPAIGNS = [
+    "Training",
+    "Custom",
     "Summer 2020",
     "Fall 2020",
     "Winter 2021",
