@@ -43,6 +43,8 @@ def after_create_regions(world: World, multiworld: MultiWorld, player: int):
 
     # Add your code here to calculate which locations to remove
 
+    authors_enabled = get_option_value(multiworld, player, "author_medals")
+
     # Remove any locations from campaigns the player isn't playing
     selected_campaigns = list(get_option_value(multiworld, player, "campaigns"))
     all_campaigns = list(supported_campaigns())
@@ -52,6 +54,11 @@ def after_create_regions(world: World, multiworld: MultiWorld, player: int):
         for campaign in unselected_campaigns:
             if campaign in location["name"]:
                 locationNamesToRemove.append(location["name"])
+        # While we're here, remove Author Trophies if author medals are disabled
+        for campaign in selected_campaigns:
+            if authors_enabled == False:
+                if location["name"].startswith(f"[{campaign}]") and location["name"].endswith("All Author"):
+                    locationNamesToRemove.append(location["name"])
 
     for region in multiworld.regions:
         if region.player == player:
@@ -60,6 +67,7 @@ def after_create_regions(world: World, multiworld: MultiWorld, player: int):
                     region.locations.remove(location)
     if hasattr(multiworld, "clear_location_cache"):
         multiworld.clear_location_cache()
+
 
 # The item pool before starting items are processed, in case you want to see the raw item pool at that stage
 def before_create_items_starting(item_pool: list, world: World, multiworld: MultiWorld, player: int) -> list:
@@ -75,16 +83,21 @@ def before_create_items_filler(item_pool: list, world: World, multiworld: MultiW
     # Because multiple copies of an item can exist, you need to add an item name
     # to the list multiple times if you want to remove multiple copies of it.
 
-    # Remove any unlock items for campaigns the player isn't playing
     selected_campaigns = list(get_option_value(multiworld, player, "campaigns"))
+    
+    # Create enough Campaign Completion Tokens for the campaigns to be played
+    for i in range(len(selected_campaigns)):
+        new_token = world.create_item("Campaign Completion Token")
+        item_pool.append(new_token)
+
+    # Remove any unlock items for campaigns the player isn't playing
     all_campaigns = list(supported_campaigns())
     unselected_campaigns = set(all_campaigns) - set(selected_campaigns)
 
-    # for item in item_table:
-    #     for campaign in unselected_campaigns:
-    #         if campaign in item["name"]:
-    #             for x in range(item["count"]):
-    #                 itemNamesToRemove.append(item["name"])
+    unused_progression = []
+    for campaign in unselected_campaigns:
+        unused_progression = unused_progression + [i for i in item_pool if i.name == f"Progressive Unlock {campaign}"]
+    for i in unused_progression: itemNamesToRemove.append(i.name)
 
     for itemName in itemNamesToRemove:
         item = next(i for i in item_pool if i.name == itemName)
@@ -117,6 +130,14 @@ def after_set_rules(world: World, multiworld: MultiWorld, player: int):
         # True if the player can access the location
         # CollectionState is defined in BaseClasses
         return True
+
+    goal_campaigns = get_option_value(multiworld, player, "goal_campaigns")
+    multiworld.completion_condition[player] = lambda state: state.count("Campaign Completion Token", player) >= goal_campaigns
+    for region in multiworld.get_regions(player):
+        for location in region.locations:
+            if location.name == "__Manual Game Complete__":
+                location.access_rule = lambda state: state.count("Campaign Completion Token", player) >= goal_campaigns
+    pass
 
     ## Common functions:
     # location = world.get_location(location_name, player)
