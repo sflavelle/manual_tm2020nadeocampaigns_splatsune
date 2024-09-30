@@ -3,7 +3,7 @@ from Options import FreeText, NumericOption, Toggle, DefaultOnToggle, Choice, Te
 
 # These helper methods allow you to determine if an option has been set, or what its value is, for any player in the multiworld
 from ..Helpers import is_option_enabled, get_option_value
-from .Helpers import tm2020_list_all_campaigns
+from .Data import supported_campaigns
 
 
 
@@ -31,13 +31,14 @@ class CampaignsToWin(Range):
     """The number of campaigns on which you need to finish Track #25."""
     display_name = "Campaigns To Complete"
     range_start = 1
-    range_end = len(tm2020_list_all_campaigns())
+    range_end = len(supported_campaigns())
     default = 1
 
 class CampaignSelection(OptionSet):
-    """The campaigns you either have available, or would like to play."""
+    """The campaigns you either have available, or would like to play.
+    Note that the more campaigns you select, the longer your seed will be."""
     display_name = "Select Available Campaigns"
-    valid_keys = [key for key in tm2020_list_all_campaigns()]
+    valid_keys = [key for key in supported_campaigns()]
 
 class ExcludeImpossibleMedals(DefaultOnToggle):
     """Exclude medals that have been made extremely difficult
@@ -74,6 +75,7 @@ def after_options_defined(options: dict) -> dict:
     options["author_medals"] = IncludeAuthorMedals
     options["trophies"] = IncludeTrophies
 
+    options["shuffle_vehicles"].display_name = "Shuffle Vehicles into Pool"
     options["shuffle_vehicles"].__doc__ = """Allow vehicles to be shuffled into the item pool.
     The default vehicle is the Stadium Car,
     but levels may force you to start as a vehicle with different properties,
