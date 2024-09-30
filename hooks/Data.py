@@ -74,6 +74,8 @@ def generate_campaign_medal_locations(campaign):
                     "category": [f"{campaign} {tier}", f"Medals - {medal}"],
                     "region": f"{campaign} #{num:02}"
                     }
+                if num == 25 and medal == "Gold":
+                    loc["place_item"] = ["Campaign Completion Token"]
                 result.append(loc)
 
     return result
