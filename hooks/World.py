@@ -83,12 +83,19 @@ def before_create_items_filler(item_pool: list, world: World, multiworld: MultiW
     # Because multiple copies of an item can exist, you need to add an item name
     # to the list multiple times if you want to remove multiple copies of it.
 
+    # First, let's delete the initially defined Campaign Completion Token, as we should only create enough to fit in the map 25s
+    # itemNamesToRemove.append("Campaign Completion Token")
+
     selected_campaigns = list(get_option_value(multiworld, player, "campaigns"))
     
     # Create enough Campaign Completion Tokens for the campaigns to be played
     for i in range(len(selected_campaigns)):
         new_token = world.create_item("Campaign Completion Token")
         item_pool.append(new_token)
+        # for map in range(25):
+        #     for medal in ["Bronze", "Silver", "Gold"]:
+        #         medal_token = world.create_item(f"{medal} Medal Token")
+        #         item_pool.append(medal_token)
 
     # Remove any unlock items for campaigns the player isn't playing
     all_campaigns = list(supported_campaigns())

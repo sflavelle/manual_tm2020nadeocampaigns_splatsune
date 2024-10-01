@@ -78,6 +78,8 @@ def generate_campaign_medal_locations(campaign):
                     }
                 if num == 25 and medal == "Gold":
                     loc["place_item"] = ["Campaign Completion Token"]
+                else:
+                    loc["dont_place_item"] = ["Campaign Completion Token"]
                 result.append(loc)
 
     return result
