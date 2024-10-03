@@ -4,9 +4,9 @@
     {"name": "Rally Car", "category": ["Vehicles"], "progression": true},
     {"name": "Desert Car", "category": ["Vehicles"], "progression": true},
 
-    {"name": "Campaign Completion Token", "category": ["Win Condition"], "count": 0, "progression": true},
+    {"name": "Campaign Completion Token", "category": ["Win Condition"], "count": 0, "progression_skip_balancing": true},
 
-    {"name": "Bronze Medal Token", "category": ["Medals"], "count": 25, "filler": true},
-    {"name": "Silver Medal Token", "category": ["Medals"], "count": 25, "filler": true},
-    {"name": "Gold Medal Token", "category": ["Medals"], "count": 25, "filler": true}
+    {"name": "Bronze Medal Token", "category": ["Medals"], "count": 0, "filler": true},
+    {"name": "Silver Medal Token", "category": ["Medals"], "count": 0, "filler": true},
+    {"name": "Gold Medal Token", "category": ["Medals"], "count": 0, "filler": true}
   ]
