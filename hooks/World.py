@@ -92,10 +92,10 @@ def before_create_items_filler(item_pool: list, world: World, multiworld: MultiW
     for i in range(len(selected_campaigns)):
         new_token = world.create_item("Campaign Completion Token")
         item_pool.append(new_token)
-        # for map in range(25):
-        #     for medal in ["Bronze", "Silver", "Gold"]:
-        #         medal_token = world.create_item(f"{medal} Medal Token")
-        #         item_pool.append(medal_token)
+        for map in range(25):
+            for medal in ["Bronze", "Silver", "Gold"]:
+                medal_token = world.create_item(f"{medal} Medal Token")
+                item_pool.append(medal_token)
 
     # Remove any unlock items for campaigns the player isn't playing
     all_campaigns = list(supported_campaigns())
@@ -104,21 +104,21 @@ def before_create_items_filler(item_pool: list, world: World, multiworld: MultiW
     unused_progression = []
     for campaign in unselected_campaigns:
         unused_progression = unused_progression + [i for i in item_pool if i.name == f"Progressive Unlock {campaign}"]
+    # Let's also randomly remove a small amount of progressive unlocks
     for i in unused_progression: itemNamesToRemove.append(i.name)
 
     for itemName in itemNamesToRemove:
         item = next(i for i in item_pool if i.name == itemName)
         item_pool.remove(item)
 
+    ## Place an item at a specific location
+    location = next(l for l in multiworld.get_unfilled_locations(player=player) if l.name.endswith("#25 Gold"))
+    item_to_place = next(i for i in item_pool if i.name == "Campaign Completion Token")
+    location.place_locked_item(item_to_place)
+    item_pool.remove(item_to_place)
+
     return item_pool
 
-    # Some other useful hook options:
-
-    ## Place an item at a specific location
-    # location = next(l for l in multiworld.get_unfilled_locations(player=player) if l.name == "Location Name")
-    # item_to_place = next(i for i in item_pool if i.name == "Item Name")
-    # location.place_locked_item(item_to_place)
-    # item_pool.remove(item_to_place)
 
 # The complete item pool prior to being set for generation is provided here, in case you want to make changes to it
 def after_create_items(item_pool: list, world: World, multiworld: MultiWorld, player: int) -> list:
