@@ -87,6 +87,15 @@ def before_create_items_filler(item_pool: list, world: World, multiworld: MultiW
     # itemNamesToRemove.append("Campaign Completion Token")
 
     selected_campaigns = list(get_option_value(multiworld, player, "campaigns"))
+
+    # Push one of the campaigns into precollected_items
+    campaign_unlocks_available = [f"Progressive Unlock {campaign}" for campaign in selected_campaigns]
+    start_campaign = world.random.choice(campaign_unlocks_available)
+    for item in item_pool.copy():
+        if item.name == start_campaign:
+            multiworld.precollected_items[player].append(item)
+            item_pool.remove(item)
+            break
     
     # Create enough Campaign Completion Tokens for the campaigns to be played
     for i in range(len(selected_campaigns)):
