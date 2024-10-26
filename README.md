@@ -1,6 +1,6 @@
 An implementation of the [Archipelago Manual World](https://github.com/ManualForArchipelago/Manual) for Trackmania (2020). This world in particular is for playing through official campaigns.
 
-**This world is currently playable(!!), but has minimal items.**
+**This world may not generate, mostly with smaller games, and has minimal items until these issues are resolved.**
 
 ## How to install
 - Download the latest `.apworld` from [Releases](https://github.com/sflavelle/manual_tm2020nadeocampaigns_splatsune/releases/latest), and open it in Archipelago 0.5.0 or later to install it to your client.
