@@ -40,6 +40,15 @@ class CampaignSelection(OptionSet):
     display_name = "Select Available Campaigns"
     valid_keys = [key for key in supported_campaigns()]
 
+class PlayMode(Choice):
+    """How would you like to play?
+    Progressive Tiers: Find Progressive Unlocks for campaigns to access the 5 next tracks.
+    Medal Token Hunt: Collect medal tokens to unlock more tracks."""
+    display_name = "Play Style"
+    # option_medal_token_hunt = 0
+    option_progressive_tiers = 1
+    default = 1
+
 class ExcludeImpossibleMedals(DefaultOnToggle):
     """Exclude medals that have been made extremely difficult
     or impossible due to physics changes.
