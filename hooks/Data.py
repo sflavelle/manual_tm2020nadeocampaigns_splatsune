@@ -31,7 +31,8 @@ CAMPAIGNS = [
     "Winter 2024",
     "Spring 2024",
     "Summer 2024",
-    "Fall 2024"
+    "Fall 2024",
+    "Winter 2025"
 ]
 
 def supported_campaigns() -> list:
